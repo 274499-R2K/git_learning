@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+
 # S = pd.Series(['a','b','c','d','e','f','g','h'])
 # #print(S)
 # V = {'0':1, '1':2, '2':3, '3':4, '4':5, '5':6}
@@ -93,6 +94,14 @@ for t in t_group:
     print("index = ",t[0], "\n")
     print("data: ","\n", t[1], "\n")
 
+# g_mean=t_group.aggregate('mean')
+# g_std=t_group.aggregate('std')
+#not working beacuse mix of string and number
+
+print("\n","\n","------------------------")
+g_mean = t_group.mean(numeric_only=True)
+g_std = t_group.std(numeric_only=True)
+print("MEAN VALUES:","\n", g_mean, "\n","\n", "STD VALUES:","\n",g_std, "\n")
 
 
 
