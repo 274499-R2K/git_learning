@@ -88,20 +88,39 @@ planets_4 = pd.DataFrame({
 merged=planets_1
 p_list=[planets_2,planets_3,planets_4]
 # print(p_list)
+
+# Puoi fare N merge in un ciclo (ad esempio con una lista di DataFrame)
+# e unire due DataFrame alla volta.
 for p in p_list:
     merged = pd.merge(merged,p, on='Planet', suffixes=('_p1', '_p2'), how="outer")
-    merged['Mass_p1'] = merged['Mass_p1'].combine_first(merged['Mass_p2'])
-    merged['Gravity_p1'] = merged['Gravity_p1'].combine_first(merged['Gravity_p2'])
-    merged['MeanTemperature_p1'] = merged['MeanTemperature_p1'].combine_first(merged['MeanTemperature_p2'])
-    merged = merged.drop(columns=['Mass_p1','Mass_p2','Gravity_p1', 'Gravity_p2',
-                                  'MeanTemperature_p1', 'MeanTemperature_p2'])
-merged = merged.rename(columns={'Mass_p1': 'Mass', 'Gravity_p1': 'Gravity', 'MeanTemperature_p1': 'MeanTemperature'})
+#     merged['Mass_p1'] = merged['Mass_p1'].combine_first(merged['Mass_p2'])
+#     merged['Gravity_p1'] = merged['Gravity_p1'].combine_first(merged['Gravity_p2'])
+#     merged['MeanTemperature_p1'] = merged['MeanTemperature_p1'].combine_first(merged['MeanTemperature_p2'])
+#     merged = merged.drop(columns=['Mass_p2','Gravity_p2', 'MeanTemperature_p2'])
+# merged = merged.rename(columns={'Mass_p1': 'Mass', 'Gravity_p1': 'Gravity', 'MeanTemperature_p1': 'MeanTemperature'})
 print(merged, "\n")
 #
-# # Puoi fare N merge in un ciclo (ad esempio con una lista di DataFrame)
-# # e unire due DataFrame alla volta.
-# # L’importante è che dopo ogni merge tu normalizzi subito la colonna Mass,
-# # altrimenti dopo N merge potresti ritrovarti con molte colonne Mass_p1, Mass_p2,
+# L’importante è che dopo ogni merge tu normalizzi subito la colonna Mass,
+# altrimenti dopo N merge potresti ritrovarti con molte colonne Mass_p1, Mass_p2,
+
+# Metodo funziona ma solo se riesco a definire la lista cols sapendo a priori tutte le proprietà (inidci) che posso trovare
+# for p in p_list:
+#     merged = pd.merge(merged, p, on='Planet', how="outer", suffixes=('_p1', '_p2'))
+#
+#     for c in cols:
+#         c1, c2 = f'{c}_p1', f'{c}_p2'
+#
+#         if c1 in merged.columns and c2 in merged.columns:
+#             merged[c1] = merged[c1].combine_first(merged[c2])
+#             merged = merged.drop(columns=[c2])
+#         elif c2 in merged.columns and c1 not in merged.columns:
+#             # if only _p2 exists, keep it as _p1
+#             merged[c1] = merged[c2]
+#             merged = merged.drop(columns=[c2])
+#         # if only _p1 exists, nothing to do
+#
+# merged = merged.rename(columns={f'{c}_p1': c for c in cols})
+# print(merged, "\n")
 
 
 
@@ -110,7 +129,6 @@ print(merged, "\n")
 # # print (merged['Mass'])
 # # print (merged.loc[2])
 # M=merged
-# #print(M, "\n")
 # M['Type'] = ['Rocky', 'Gas', 'Rocky', 'Gas', 'Gas', 'Rocky']
 # print(M, "\n")
 #
